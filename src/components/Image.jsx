@@ -25,7 +25,7 @@ const Image = ({ ...rest }) => {
 
 //element to add size to gatsby image component
 Image.MotionContainer = styled(motion.div)`
-  width:${props => props.width}px;
+  width:${props => props.width || 800}px;
   flex-shrink:0;
   transform-origin: center center;
 

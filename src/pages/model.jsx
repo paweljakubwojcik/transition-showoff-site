@@ -21,8 +21,8 @@ export default function model({ location }) {
 
     const clipContainerAnimation = {
         initial: {
-            ...location.state.clipSize,
-            ...location.state.position
+            ...location.state?.clipSize,
+            ...location.state?.position
         },
         animate: {
             ...clipSize,
@@ -42,7 +42,7 @@ export default function model({ location }) {
     }
     const motionContainerAnimation = {
         initial: {
-            width: location.state.imageSize?.width,
+            width: location.state?.imageSize?.width,
             scale: 1.1
         },
         animate: {

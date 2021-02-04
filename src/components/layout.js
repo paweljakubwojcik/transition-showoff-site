@@ -45,7 +45,7 @@ export default function Layout({ children, location }) {
         <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
         <AnimatePresence exitBeforeEnter initial={false}>
           <Main
-            key={location.pathname}
+            key={location?.pathname}
             initial="initial"
             animate="animate"
             exit="exit"
