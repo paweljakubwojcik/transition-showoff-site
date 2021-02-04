@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react"
-import { Link } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 
 import SEO from "../components/seo"
 import styled from 'styled-components/macro'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from '../components/Image'
+import Info from '../components/Info'
+
+import { fade } from '../utils/framerAnimations'
 
 const imageSize = {
   width: 480
@@ -14,28 +17,12 @@ const clipSize = {
   height: 330
 }
 
-const transition = { duration: .6, ease: [0.39, 0.575, 0.565, 1] }
-
 const getElementPosition = (element) => {
   return {
     x: element.offsetLeft + (element.offsetParent ? getElementPosition(element.offsetParent).x : 0),
     y: element.offsetTop + (element.offsetParent ? getElementPosition(element.offsetParent).y : 0)
   }
 
-}
-
-const opacityVariant = {
-  initial: {
-    opacity: 0
-  },
-  exit: {
-    opacity: 0,
-    transition: { duration: .3 }
-  },
-  animate: {
-    opacity: 1,
-    transition: { duration: .3 }
-  }
 }
 
 export default function IndexPage() {
@@ -45,16 +32,16 @@ export default function IndexPage() {
       <SEO title="Home" />
       <Wrapper>
         <Image.Container>
-          <Location
-            variants={opacityVariant}>
+          <Info.Upper
+            variants={fade}>
             Andrews University, Berrien Springs, United States
-          </Location>
+          </Info.Upper>
           <ImageCompound />
-          <ModelName
-            variants={opacityVariant}
+          <Info.Bottom
+            variants={fade}
           >
             {'Danae Keizs'}
-          </ModelName>
+          </Info.Bottom>
         </Image.Container>
       </Wrapper>
     </>
@@ -63,17 +50,21 @@ export default function IndexPage() {
 
 const ImageCompound = () => {
   const [imageDOM, setImageDOM] = useState(null)
-  const [imagePosition, setImagePosition] = useState(null)
 
-  useEffect(() => {
-    if (imageDOM) {
-      setImagePosition(getElementPosition(imageDOM))
-    }
-
-    return () => {
-
-    }
-  }, [imageDOM])
+  const handleOnclick = (e) => {
+    console.log(e.target)
+    e.preventDefault()
+    navigate(
+      '/model',
+      {
+        state: {
+          imageSize,
+          clipSize,
+          position: getElementPosition(imageDOM)
+        }
+      }
+    )
+  }
 
   return (
     <Image.ClipContainer style={{ ...clipSize }} ref={setImageDOM}>
@@ -88,7 +79,7 @@ const ImageCompound = () => {
           }
         }}
       >
-        <Link to='/model' state={{ imageSize, clipSize, position: imagePosition }}>
+        <Link to={'#'} onClick={handleOnclick}>
           <Image />
         </Link>
       </Image.MotionContainer>
@@ -106,19 +97,3 @@ const Wrapper = styled.div`
   height:100%;
 `
 
-const ModelName = styled(motion.p)`
-    font-family:var(--header-font);
-    font-size:1.2em;
-
-    position:absolute;
-    top:100%;
-
-`
-
-const Location = styled(motion.p)`
-    
-    position:absolute;
-    top:0;
-    right:0;
-    transform:translateY(-100%);
-`

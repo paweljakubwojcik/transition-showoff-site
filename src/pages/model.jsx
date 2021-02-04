@@ -5,60 +5,74 @@ import Image from '../components/Image'
 import SEO from "../components/seo"
 import GoBackLink from "../components/GoBackLink"
 
+import { fade } from '../utils/framerAnimations'
 
 const imageSize = {
-    width: 1600,
+    width: '100vw',
 }
 const clipSize = {
     width: '55vw',
     height: '110vh'
 }
 
-const transition = { duration: 1, delay: .3, ease: [0.6, 0.01, -0.05, 0.9] }
-
+const transition = { duration: 1.2, delay: .3, ease: [0.6, 0.01, -0.05, 0.9] }
 
 export default function model({ location }) {
+
+    const clipContainerAnimation = {
+        initial: {
+            ...location.state.clipSize,
+            ...location.state.position
+        },
+        animate: {
+            ...clipSize,
+            y: '-5vh',
+            x: '55vw',
+            transition: { ...transition }
+        },
+        exit: {
+            width: [null, '100vw', '10vw'],
+            x: [null, "0vw", '-10vw'],
+            transition: {
+                ...transition,
+                delay: .2,
+                ease: [.42, .27, .6, .87]
+            }
+        }
+    }
+    const motionContainerAnimation = {
+        initial: {
+            width: location.state.imageSize?.width,
+            scale: 1.1
+        },
+        animate: {
+            ...imageSize,
+            scale: 1,
+            x: '5%',
+            transition: { ...transition }
+        },
+        exit: {
+            x: '0%',
+            transition: { ...transition }
+        }
+    }
 
     return (
         <>
             <Wrapper>
                 <SEO title="Danae Keizs" />
                 <ModelName
-                    initial={{
-                        opacity: 0,
-                        x: '30vw'
-                    }}
-                    animate={{
-                        opacity: 1,
-                        x: 0,
-                        transition: {
-                            ...transition,
-                            delay: .6
-                        }
-                    }}
-                    exit={{
-                        opacity: 0,
-                        x: '-50vw',
-                    }}
+                    variants={fade}
                     transition={{
-                        ...transition
+                        ...fade.transition,
+                        delay: .5
                     }}
                 >Danae Keizs</ModelName>
                 <ModelDetails
-                    initial={{
-                        opacity: 0,
-                    }}
-                    animate={{
-                        opacity: 1,
-                        transition: {
-                            delay: 1
-                        }
-                    }}
-                    exit={{
-                        opacity: 0,
-                    }}
+                    variants={fade}
                     transition={{
-                        ...transition,
+                        ...fade.transition,
+                        delay: .7
                     }}
                 >
                     <p>
@@ -86,37 +100,11 @@ export default function model({ location }) {
                     top: 0,
                     left: 0
                 }}
-                initial={{
-                    ...location.state.clipSize,
-                    ...location.state.position
-                }}
-                animate={{
-                    ...clipSize,
-                    y: '-5vh',
-                    x: '55vw',
-                    transition: { ...transition }
-                }}
-                exit={{
-                    width: 0,
-                    x: '100vw',
-                    transition: {
-                        ...transition,
-                        delay: .6
-                    }
-                }}
+                variants={clipContainerAnimation}
             >
                 <Image.MotionContainer
                     width={imageSize.width}
-                    initial={{
-                        width: location.state.imageSize?.width,
-                        scale: 1.1
-                    }}
-                    animate={{
-                        ...imageSize,
-                        scale: 1,
-                        x: '5%',
-                        transition: { ...transition }
-                    }}
+                    variants={motionContainerAnimation}
                 >
                     <Image />
                 </Image.MotionContainer>
@@ -135,13 +123,11 @@ const ModelName = styled(motion.h2)`
 `
 
 const ModelDetails = styled(motion.div)`
-
     p{
         font-size:1.2em;
         margin: 1em .1em;
         text-align:justify;
     }
-    
 `
 
 const Wrapper = styled.div`
@@ -155,4 +141,5 @@ const Wrapper = styled.div`
     height: calc(50% + 6em);
     width: min-content;
     
+    font-size:1.2em;
 `
