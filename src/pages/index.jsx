@@ -24,9 +24,44 @@ const getElementPosition = (element) => {
 
 }
 
+const opacityVariant = {
+  initial: {
+    opacity: 0
+  },
+  exit: {
+    opacity: 0,
+    transition: { duration: .3 }
+  },
+  animate: {
+    opacity: 1,
+    transition: { duration: .3 }
+  }
+}
 
-export default function IndexPage({ location }) {
+export default function IndexPage() {
 
+  return (
+    <>
+      <SEO title="Home" />
+      <Wrapper>
+        <Image.Container>
+          <Location
+            variants={opacityVariant}>
+            Andrews University, Berrien Springs, United States
+          </Location>
+          <ImageCompound />
+          <ModelName
+            variants={opacityVariant}
+          >
+            {'Danae Keizs'}
+          </ModelName>
+        </Image.Container>
+      </Wrapper>
+    </>
+  )
+}
+
+const ImageCompound = () => {
   const [imageDOM, setImageDOM] = useState(null)
   const [imagePosition, setImagePosition] = useState(null)
 
@@ -41,28 +76,23 @@ export default function IndexPage({ location }) {
   }, [imageDOM])
 
   return (
-    <>
-      <SEO title="Home" />
-      <Wrapper>
-        <Image.Container>
-          <Image.ClipContainer style={{ ...clipSize }} ref={setImageDOM}>
-            <Image.MotionContainer width={imageSize.width} whileHover={{ scale: 1.1 }}>
-              <Link to='/model' state={{ imageSize, clipSize, position: imagePosition }}>
-                <Image />
-              </Link>
-            </Image.MotionContainer>
-          </Image.ClipContainer>
-          <ModelName
-            key={location.pathname}
-            exit={{
-              opacity: 0,
-              transition: { duration: 1 }
-            }}>
-            {'Danae Keizs'}
-          </ModelName>
-        </Image.Container>
-      </Wrapper>
-    </>
+    <Image.ClipContainer style={{ ...clipSize }} ref={setImageDOM}>
+      <Image.MotionContainer
+        width={imageSize.width}
+        whileHover={{ scale: 1.1 }}
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: 1,
+          transition: {
+            duration: .5
+          }
+        }}
+      >
+        <Link to='/model' state={{ imageSize, clipSize, position: imagePosition }}>
+          <Image />
+        </Link>
+      </Image.MotionContainer>
+    </Image.ClipContainer>
   )
 }
 
@@ -76,11 +106,19 @@ const Wrapper = styled.div`
   height:100%;
 `
 
-const ModelName = styled.p`
+const ModelName = styled(motion.p)`
     font-family:var(--header-font);
     font-size:1.2em;
 
     position:absolute;
     top:100%;
 
+`
+
+const Location = styled(motion.p)`
+    
+    position:absolute;
+    top:0;
+    right:0;
+    transform:translateY(-100%);
 `

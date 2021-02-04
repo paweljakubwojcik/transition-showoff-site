@@ -68,15 +68,16 @@ Layout.propTypes = {
 }
 
 const Container = styled.div`
-
+    
     width:100%;
     height:100vh;
-    padding: 2em 3em;
+    padding: 2em 5em;
 `
 
 const Main = styled(motion.main)`
 
   height:100%;
+  display:flex;
 
 `
 
