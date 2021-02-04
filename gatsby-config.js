@@ -1,4 +1,5 @@
 module.exports = {
+  pathPrefix: "/transition-showoff-site",
   siteMetadata: {
     title: `Some Model Site`,
     description: `A quick transition showoff`,
