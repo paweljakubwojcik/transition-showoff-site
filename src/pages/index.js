@@ -52,7 +52,6 @@ const ImageCompound = () => {
   const [imageDOM, setImageDOM] = useState(null)
 
   const handleOnclick = (e) => {
-    console.log(e.target)
     e.preventDefault()
     navigate(
       '/model/',

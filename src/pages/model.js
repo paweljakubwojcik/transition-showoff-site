@@ -4,8 +4,9 @@ import { motion } from 'framer-motion'
 import Image from '../components/Image'
 import SEO from "../components/seo"
 import GoBackLink from "../components/GoBackLink"
+import StaggeredAnimatedText from '../components/StaggerAnimation'
 
-import { fade } from '../utils/framerAnimations'
+import { fade, transition } from '../utils/framerAnimations'
 
 const imageSize = {
     width: '100vw',
@@ -15,7 +16,7 @@ const clipSize = {
     height: '110vh'
 }
 
-const transition = { duration: 1.2, delay: .3, ease: [0.6, 0.01, -0.05, 0.9] }
+
 
 export default function model({ location }) {
 
@@ -61,18 +62,16 @@ export default function model({ location }) {
         <>
             <Wrapper>
                 <SEO title="Danae Keizs" />
-                <ModelName
-                    variants={fade}
-                    transition={{
-                        ...fade.transition,
-                        delay: .5
-                    }}
-                >Danae Keizs</ModelName>
+                <ModelName>
+                    <StaggeredAnimatedText>
+                        Danae Keizs
+                    </StaggeredAnimatedText>
+                </ModelName>
                 <ModelDetails
                     variants={fade}
                     transition={{
-                        ...fade.transition,
-                        delay: .7
+                        duration: .5,
+                        delay: .8
                     }}
                 >
                     <p>
@@ -113,7 +112,11 @@ export default function model({ location }) {
     )
 }
 
-const ModelName = styled(motion.h2)`
+
+
+
+
+const ModelName = styled.h2`
 
     font-family: var(--header-font);
     font-size:6em;
