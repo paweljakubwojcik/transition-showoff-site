@@ -8,7 +8,7 @@ const Image = ({ ...rest }) => {
 
   const data = useStaticQuery(graphql`
       query MyQuery {
-        file(name: {eq: "Danae-Keizs-large"}) {
+        file(name: {eq: "Danae-Keizs-medium"}) {
           childImageSharp {
             fluid(maxWidth:2000){
               ...GatsbyImageSharpFluid
