@@ -2,7 +2,6 @@ import React from "react"
 import styled from "styled-components/macro"
 import { motion } from "framer-motion"
 import Img from "gatsby-image"
-import { useStaticQuery, graphql } from "gatsby"
 
 const Image = ({ data, ...rest }) => {
   return <Img {...rest} fluid={data.childImageSharp.fluid}></Img>

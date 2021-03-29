@@ -5,6 +5,7 @@ import Image from "../components/Image"
 import SEO from "../components/seo"
 import GoBackLink from "../components/GoBackLink"
 import StaggeredAnimatedText from "../components/StaggerAnimation"
+import {graphql} from 'gatsby'
 
 import { fade, transition } from "../utils/framerAnimations"
 
