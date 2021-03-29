@@ -1,7 +1,18 @@
-/**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.com/docs/node-apis/
- */
+const path = require(`path`)
+const fs = require("fs")
+const { createRemoteFileNode } = require("gatsby-source-filesystem")
+const models = require(`./src/constants/models.js`)
 
-// You can delete this file if you're not using it
+exports.createPages = async ({ actions, graphql }) => {
+  const { createPage } = actions
+  const basePath = "models"
+  const modelPageTemplate = path.resolve(`src/templates/model.jsx`)
+
+  models.forEach(model => {
+    createPage({
+      path: `/${basePath}/${model.name}`,
+      component: modelPageTemplate,
+      context: model,
+    })
+  })
+}

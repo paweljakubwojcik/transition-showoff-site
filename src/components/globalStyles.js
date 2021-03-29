@@ -26,7 +26,7 @@ export const GlobalStyles = createGlobalStyle`
         font-family: var(--main-font);
         font-size: 16px;
 
-        overflow: hidden;
+        overflow-x: hidden;
 
         &:before {
             background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/9632/paper-pattern.png");
