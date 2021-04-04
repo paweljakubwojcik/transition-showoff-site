@@ -17,4 +17,6 @@ const StyledLink = styled(Link)`
     width:30px;
     height:30px;
     font-size:1em;
+
+    margin: 2em 0;
 `

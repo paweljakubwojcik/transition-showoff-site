@@ -21,7 +21,6 @@ export default function Layout({ children, location }) {
   return (
     <>
       <GlobalStyles />
-      <BackgroundThing />
       <Container>
         <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
         <AnimatePresence exitBeforeEnter initial={false}>
@@ -34,11 +33,10 @@ export default function Layout({ children, location }) {
             {children}
           </Main>
         </AnimatePresence>
-        <Footer>
-          © {new Date().getFullYear()}, Built with
-          <a href="https://www.gatsbyjs.com">Gatsby</a>
-        </Footer>
+
+        {/* <BackgroundThing /> */}
       </Container>
+      
     </>
   )
 }
@@ -52,6 +50,7 @@ const Container = styled.div`
   align-items: stretch;
   position: relative;
   overflow-y: auto;
+  overflow-x: hidden;
 
   width: 100%;
   height: 100vh;
@@ -82,6 +81,6 @@ const Main = styled(motion.main)`
 `
 
 const Footer = styled.footer`
-  position: fixed;
+  
   bottom: 0;
 `

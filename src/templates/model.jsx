@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components/macro"
 import { motion } from "framer-motion"
 import Image from "../components/Image"
@@ -9,22 +9,34 @@ import { graphql } from "gatsby"
 
 import { fade, transition } from "../utils/framerAnimations"
 
+const mediaQuery = window.matchMedia("(max-width: 1000px)")
+
 const imageSize = {
   width: "100vw",
 }
-const clipSize = {
-  width: "55vw",
-  height: "110vh",
-}
 
 export default function Model({ location, data, pageContext }) {
+  const [mobile, setMobile] = useState(mediaQuery.matches)
+
+  const handleResize = () => {
+    setMobile(mobile =>
+      mediaQuery.matches !== mobile ? mediaQuery.matches : mobile
+    )
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
   const clipContainerAnimation = {
     initial: {
       ...location.state?.clipSize,
       ...location.state?.position,
     },
     animate: {
-      ...clipSize,
+      width: "55vw",
+      height: "110vh",
       y: "-5vh",
       x: "55vw",
       transition: { ...transition },
@@ -38,6 +50,13 @@ export default function Model({ location, data, pageContext }) {
         ease: [0.42, 0.27, 0.6, 0.87],
       },
     },
+    mobile: {
+      width: "100vw",
+      height: "50vh",
+      y: "0vh",
+      x: "0vw",
+      transition: { ...transition },
+    },
   }
   const motionContainerAnimation = {
     initial: {
@@ -45,9 +64,17 @@ export default function Model({ location, data, pageContext }) {
       scale: 1.1,
     },
     animate: {
-      ...imageSize,
+      width: "100vw",
       scale: 1,
       x: "5%",
+      opacity: 1,
+      transition: { ...transition },
+    },
+    mobile: {
+      width: "120vw",
+      scale: 1,
+      x: "-10vw",
+      opacity: 0.8,
       transition: { ...transition },
     },
     exit: {
@@ -57,6 +84,8 @@ export default function Model({ location, data, pageContext }) {
   }
 
   const { name } = pageContext
+
+  console.log(mobile)
 
   return (
     <>
@@ -72,7 +101,7 @@ export default function Model({ location, data, pageContext }) {
             delay: 0.8,
           }}
         >
-          {/* <p>
+          <p>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iure
             veniam quisquam nulla repellendus accusantium quia explicabo, omnis
             rerum, nam dignissimos esse, ullam ut officia nostrum unde non quos
@@ -83,7 +112,7 @@ export default function Model({ location, data, pageContext }) {
             veniam quisquam nulla repellendus accusantium quia explicabo, omnis
             rerum, nam dignissimos esse, ullam ut officia nostrum unde non quos
             similique repudiandae?
-          </p> */}
+          </p>
         </ModelDetails>
         <GoBackLink
           to={"/"}
@@ -94,11 +123,14 @@ export default function Model({ location, data, pageContext }) {
       </Wrapper>
       <Image.ClipContainer
         style={{
-          position: "fixed",
+          position: mobile ? "absolute" : "fixed",
           top: 0,
           left: 0,
         }}
         variants={clipContainerAnimation}
+        animate={mobile ? "mobile" : "animate"}
+        initial="initial"
+        exit="exit"
       >
         <Image.MotionContainer
           width={imageSize.width}
@@ -129,10 +161,14 @@ const ModelName = styled.h2`
   font-weight: 100;
   margin: 0;
   white-space: nowrap;
+  max-width: 100vw;
 `
 
 const ModelDetails = styled(motion.div)`
   width: 40vw;
+  @media (max-width: 1000px) {
+    width: 80vw;
+  }
   p {
     font-size: 1.2em;
     margin: 1em 0.1em;
@@ -146,11 +182,16 @@ const Wrapper = styled.div`
   justify-content: space-between;
 
   position: relative;
-  top: calc(50% - 6em);
+  z-index: 3;
+  top: calc(50% - 8em);
   height: calc(50% + 6em);
   width: min-content;
 
   font-size: 1.2em;
+
+  @media (max-width: 1000px) {
+    font-size: 1em;
+  }
 
   max-height: 100vh;
 `
