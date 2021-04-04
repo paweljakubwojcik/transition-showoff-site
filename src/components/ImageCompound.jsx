@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import { Link, navigate } from "gatsby"
-import { motion, AnimatePresence } from "framer-motion"
 import { getElementPosition } from "../utils/methods"
 import Image from "../components/Image"
 
@@ -20,7 +19,8 @@ const ImageCompound = ({ data, name }) => {
       max: 500,
       min: 300,
     }
-    const width = window.innerWidth * 0.26
+
+    const width = window?.innerWidth * 0.26
     if (width < boundries.min) setImageWidth(boundries.min)
     if (width > boundries.max) setImageWidth(boundries.max)
     if (width < boundries.max && width > boundries.min) setImageWidth(width)
@@ -40,7 +40,7 @@ const ImageCompound = ({ data, name }) => {
       state: {
         imageSize: { width: imageWidth },
         clipSize,
-        position: getElementPosition(imageDOM)
+        position: getElementPosition(imageDOM),
       },
     })
   }

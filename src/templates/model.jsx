@@ -9,13 +9,17 @@ import { graphql } from "gatsby"
 
 import { fade, transition } from "../utils/framerAnimations"
 
-const mediaQuery = window.matchMedia("(max-width: 1000px)")
+const mediaQuery =
+  typeof window !== "undefined"
+    ? window.matchMedia("(max-width: 1000px)")
+    : { matches: false }
 
 const imageSize = {
   width: "100vw",
 }
 
 export default function Model({ location, data, pageContext }) {
+  const { name } = pageContext
   const [mobile, setMobile] = useState(mediaQuery.matches)
 
   const handleResize = () => {
@@ -44,6 +48,7 @@ export default function Model({ location, data, pageContext }) {
     exit: {
       width: [null, "100vw", "10vw"],
       x: [null, "0vw", "-10vw"],
+      zIndex: [3, 3, 3],
       transition: {
         ...transition,
         delay: 0.2,
@@ -68,6 +73,7 @@ export default function Model({ location, data, pageContext }) {
       scale: 1,
       x: "5%",
       opacity: 1,
+
       transition: { ...transition },
     },
     mobile: {
@@ -79,13 +85,10 @@ export default function Model({ location, data, pageContext }) {
     },
     exit: {
       x: "0%",
+
       transition: { ...transition },
     },
   }
-
-  const { name } = pageContext
-
-  console.log(mobile)
 
   return (
     <>
@@ -126,6 +129,7 @@ export default function Model({ location, data, pageContext }) {
           position: mobile ? "absolute" : "fixed",
           top: 0,
           left: 0,
+          zIndex: -1,
         }}
         variants={clipContainerAnimation}
         animate={mobile ? "mobile" : "animate"}
@@ -184,7 +188,7 @@ const Wrapper = styled.div`
   position: relative;
   z-index: 3;
   top: calc(50% - 8em);
-  height: calc(50% + 6em);
+  height: fit-content;
   width: min-content;
 
   font-size: 1.2em;
@@ -194,4 +198,11 @@ const Wrapper = styled.div`
   }
 
   max-height: 100vh;
+  margin-bottom: 2em;
+`
+
+const ScrollWrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
 `
