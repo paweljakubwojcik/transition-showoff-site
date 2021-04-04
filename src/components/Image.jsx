@@ -25,6 +25,7 @@ Image.ClipContainer = styled(motion.div)`
 
 Image.Container = styled(motion.div)`
   position: relative;
+  margin:2em 1em;
 `
 
 export default Image

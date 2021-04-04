@@ -1,11 +1,11 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components/macro"
 import { motion } from "framer-motion"
 import Image from "../components/Image"
 import SEO from "../components/seo"
 import GoBackLink from "../components/GoBackLink"
 import StaggeredAnimatedText from "../components/StaggerAnimation"
-import {graphql} from 'gatsby'
+import { graphql } from "gatsby"
 
 import { fade, transition } from "../utils/framerAnimations"
 
@@ -17,7 +17,7 @@ const clipSize = {
   height: "110vh",
 }
 
-export default function model({ location, data, pageContext }) {
+export default function Model({ location, data, pageContext }) {
   const clipContainerAnimation = {
     initial: {
       ...location.state?.clipSize,
@@ -72,7 +72,7 @@ export default function model({ location, data, pageContext }) {
             delay: 0.8,
           }}
         >
-          <p>
+          {/* <p>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iure
             veniam quisquam nulla repellendus accusantium quia explicabo, omnis
             rerum, nam dignissimos esse, ullam ut officia nostrum unde non quos
@@ -83,7 +83,7 @@ export default function model({ location, data, pageContext }) {
             veniam quisquam nulla repellendus accusantium quia explicabo, omnis
             rerum, nam dignissimos esse, ullam ut officia nostrum unde non quos
             similique repudiandae?
-          </p>
+          </p> */}
         </ModelDetails>
         <GoBackLink
           to={"/"}
@@ -151,4 +151,6 @@ const Wrapper = styled.div`
   width: min-content;
 
   font-size: 1.2em;
+
+  max-height: 100vh;
 `
